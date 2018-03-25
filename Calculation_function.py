@@ -304,7 +304,7 @@ class SystemGain(object):
                 cs_ped = cs_ary[:, 1]
                 if pedal_avg[0] == 0:  # 如果原始数据中有怠速数据，则替换
                     cs_ped[0] = 0
-                    cs_vspd[1] = vehspd_sg_for_inter[0]  # 怠速车速
+                    cs_vspd[0] = vehspd_sg_for_inter[0]  # 怠速车速
                 else:
                     cs_ped = cs_ped[1:]  # 去掉传递过来不对的怠速转速
                     cs_vspd = cs_vspd[1:]
@@ -532,6 +532,13 @@ class SaveAndLoad(object):
         return
 
     @staticmethod
+    def store_result_in_excel(file_path, store_data):
+        # output_file = open(file_path, 'wb')
+        # dump(store_data, output_file)
+        # output_file.close()
+        return
+
+    @staticmethod
     def reload_result(file_path_list):
         data_reload = []
         for i in file_path_list:
@@ -555,6 +562,7 @@ class SaveAndLoad(object):
         return data_reload
 
     # PPT
+    @staticmethod
     def get_fig_name(type, rawdata_filepath):
         if type == "initial_ppt":
             list_figs = [['dr_sg_curve', 'System Gain Curve.png'], ['dr_max_acc', 'Max Acc.png'],
@@ -574,6 +582,8 @@ class SaveAndLoad(object):
         return list_figs, rawdata_name, title_ppt
 
         # PPT
+
+    @staticmethod
     def save_pic_ppt(list_figs, rawdata_name, title_ppt, pic_path):
         # Input PowerPoint Template，default blank。
         try:
@@ -664,7 +674,7 @@ class ConstantSpeed(object):
                                               self.gear[i],
                                               self.veh_std_cal(i)])
                         k = k + 1
-                    elif self.veh_std_cal(i) < self.cs_table[k][5] and abs(
+                    elif self.veh_std_cal(i) < self.cs_table[k][7] and abs(
                                     self.mean_speed_cal(i) - self.cs_table[k][1]) < 5:
                         self.cs_table[k] = [i,
                                             self.mean_speed_cal(i),
